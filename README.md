@@ -1,13 +1,13 @@
-# cf-heath-check
+# cf-health-check
 
-Manage heath checks which determine the overall health of a service's dependencies.
+Manage health checks which determine the overall health of a service's dependencies.
 
-[![dependency status](https://david-dm.org/clocklimited/cf-heath-check.svg)](https://david-dm.org/clocklimited/cf-heath-check)
+[![dependency status](https://david-dm.org/clocklimited/cf-health-check.svg)](https://david-dm.org/clocklimited/cf-health-check)
 
 ## Installation
 
 ```
-npm install --save cf-heath-check
+npm install --save cf-health-check
 ```
 
 ## Usage

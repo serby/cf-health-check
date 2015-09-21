@@ -1,6 +1,6 @@
 {
-  "name": "cf-heath-check",
-  "description": "Manage heath checks which determine the overall health of a service's dependencies",
+  "name": "cf-health-check",
+  "description": "Manage health checks which determine the overall health of a service's dependencies",
   "version": "1.0.1",
   "dependencies": {
     "async": "^1.4.2"
@@ -30,6 +30,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:clocklimited/cf-heath-check.git"
+    "url": "git@github.com:clocklimited/cf-health-check.git"
   }
 }

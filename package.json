@@ -1,7 +1,7 @@
 {
   "name": "cf-health-check",
   "description": "Manage health checks which determine the overall health of a service's dependencies",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "dependencies": {
     "async": "^1.4.2"
   },

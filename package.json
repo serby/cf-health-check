@@ -13,7 +13,7 @@
     "posttest": "(istanbul check-coverage --statements 90 --branches 90 --functions 100 --lines 90 && rm -rf coverage) || echo Look at 'coverage/lcov-report/index.html' to find out more"
   },
   "publishConfig": {
-    "registry": "http://npm.clockte.ch"
+    "registry": "http://registry.npmjs.org"
   },
   "author": "Paul Serby <paul.serby@clock.co.uk>",
   "license": "ISC",

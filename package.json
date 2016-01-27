@@ -1,7 +1,7 @@
 {
   "name": "cf-health-check",
   "description": "Manage health checks which determine the overall health of a service's dependencies",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "dependencies": {
     "async": "^1.5.2",
     "lodash.assign": "^4.0.1"

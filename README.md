@@ -12,14 +12,11 @@ npm install --save cf-health-check
 
 ## Usage
 
-Register a async function that performs a check.
+Register an async function that performs something you want to check.
 
 ```js
 
-var healthCheck = new HealthCheck()
-
-healthCheck.register('critical'
-  , { name: 'Database', description: 'Active connection to database', fn: checkConnection })
+var healthCheck = new HealthCheck({ timeout: 5000 })
 
 function checkConnection(cb) {
   serviceLocator.serviceDatabase.stats(function (err, stats) {
@@ -27,11 +24,23 @@ function checkConnection(cb) {
   })
 }
 
+// Optional
+function cleanFn() {
+  // do something to clean up check.
+}
+
+healthCheck.register('critical'
+  , { name: 'Database', description: 'Active connection to database', fn: checkConnection, cleanFn: cleanFn })
+
+
 healthCheck.run(function (err, results) {
   // Process results
 })
-
 ```
+
+## Options
+
+* timeout - Length of time each check is allowed before returning 'Timed out' status. (Default 10s)
 
 ## Credits
 [Paul Serby](https://github.com/clocklimited/)

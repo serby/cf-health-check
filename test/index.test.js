@@ -139,4 +139,76 @@ describe('health-check', function () {
     })
 
   })
+
+  it('should set status to timeout if time is exceeded', function (done) {
+
+    var healthCheck = new HealthCheck({ timeout: 200 })
+      , now = Date.now()
+
+    mockdate.set(now)
+
+    function check (cb) {
+      mockdate.set(now + 200)
+      setTimeout(cb, 1000)
+    }
+
+    healthCheck.register('critical', { name: 'critical test', description: '', fn: check })
+
+    healthCheck.run(function (ignoreErr, results) {
+      assert.deepEqual(results
+        , { summary: { critical: { fail: 0, pass: 1, count: 1 }, total: { fail: 0, pass: 1, count: 1 } }
+          , results:
+            { critical: [ { name: 'critical test', description: '', status: 'Timed Out', time: 200 } ]
+            }
+          })
+      mockdate.reset()
+      done()
+    })
+
+  })
+
+  it('should run `cleanFn` after check', function (done) {
+
+    var healthCheck = new HealthCheck({ timeout: 200 })
+      , order = []
+
+    function check (cb) {
+      order.push('check')
+      cb()
+    }
+
+    function cleanFn () {
+      order.push('clean')
+    }
+
+    healthCheck.register('critical', { name: 'critical test', description: '', fn: check, cleanFn: cleanFn })
+
+    healthCheck.run(function () {
+      assert.deepEqual(order, [ 'check', 'clean' ])
+      done()
+    })
+
+  })
+
+  it('should run `cleanFn` after timeout occurred', function (done) {
+
+    var healthCheck = new HealthCheck({ timeout: 200 })
+      , order = []
+
+    function check () {
+      order.push('check')
+    }
+
+    function cleanFn () {
+      order.push('clean')
+    }
+
+    healthCheck.register('critical', { name: 'critical test', description: '', fn: check, cleanFn: cleanFn })
+
+    healthCheck.run(function () {
+      assert.deepEqual(order, [ 'check', 'clean' ])
+      done()
+    })
+
+  })
 })

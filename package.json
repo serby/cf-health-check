@@ -3,7 +3,8 @@
   "description": "Manage health checks which determine the overall health of a service's dependencies",
   "version": "1.0.2",
   "dependencies": {
-    "async": "^1.4.2"
+    "async": "^1.5.2",
+    "lodash.assign": "^4.0.1"
   },
   "scripts": {
     "lint": "eslint -f unix .",

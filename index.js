@@ -1,9 +1,14 @@
 module.exports = HeathCheck
 
 var async = require('async')
+  , extend = require('lodash.assign')
 
-function HeathCheck () {
+function noop () {
+}
+
+function HeathCheck (options) {
   this.checks = []
+  this.options = extend({ timeout: 10000 }, options)
 }
 
 HeathCheck.prototype.register = function (type, check) {
@@ -12,7 +17,11 @@ HeathCheck.prototype.register = function (type, check) {
 
   function checkWrapper (cb) {
     var start = Date.now()
-    check.fn(function (error, status) {
+      , timeout
+
+    if (typeof check.cleanFn !== 'function') check.cleanFn = noop
+
+    function buildResult (error, status) {
       var result = { type: type, name: check.name, description: check.description, status: 'Error' }
       if (error) {
         result.error = error.message
@@ -20,11 +29,25 @@ HeathCheck.prototype.register = function (type, check) {
         result.status = status
       }
       result.time = Date.now() - start
-      cb(null, result)
+      return result
+    }
+
+    timeout = setTimeout(function () {
+      timeout = null
+      check.cleanFn()
+      cb(null, buildResult(null, 'Timed Out'))
+    }, this.options.timeout)
+
+    check.fn(function (error, status) {
+      if (timeout) {
+        clearTimeout(timeout)
+        check.cleanFn()
+        cb(null, buildResult(error, status))
+      }
     })
   }
 
-  this.checks.push(checkWrapper)
+  this.checks.push(checkWrapper.bind(this))
 }
 
 HeathCheck.prototype.run = function (cb) {

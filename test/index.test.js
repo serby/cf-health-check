@@ -156,9 +156,9 @@ describe('health-check', function () {
 
     healthCheck.run(function (ignoreErr, results) {
       assert.deepEqual(results
-        , { summary: { critical: { fail: 0, pass: 1, count: 1 }, total: { fail: 0, pass: 1, count: 1 } }
+        , { summary: { critical: { fail: 1, pass: 0, count: 1 }, total: { fail: 1, pass: 0, count: 1 } }
           , results:
-            { critical: [ { name: 'critical test', description: '', status: 'Timed Out', time: 200 } ]
+            { critical: [ { name: 'critical test', description: '', error: 'Check Timed Out', status: 'Error', time: 200 } ]
             }
           })
       mockdate.reset()

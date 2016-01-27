@@ -35,7 +35,7 @@ HeathCheck.prototype.register = function (type, check) {
     timeout = setTimeout(function () {
       timeout = null
       check.cleanFn()
-      cb(null, buildResult(null, 'Timed Out'))
+      cb(null, buildResult(new Error('Check Timed Out')))
     }, this.options.timeout)
 
     check.fn(function (error, status) {

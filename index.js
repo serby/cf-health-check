@@ -46,12 +46,24 @@ HeathCheck.prototype.register = function (type, check) {
       }
     })
   }
-
-  this.checks.push(checkWrapper.bind(this))
+  var returnFn = checkWrapper.bind(this)
+  returnFn.type = type
+  this.checks.push(returnFn)
 }
 
-HeathCheck.prototype.run = function (cb) {
-  async.parallel(this.checks, function (impossibleErr, results) {
+HeathCheck.prototype.run = function (onlyType, cb) {
+  var checks
+  if (typeof onlyType === 'function') {
+    cb = onlyType
+    onlyType = null
+    checks = this.checks
+  } else {
+    checks = this.checks.filter(function (check) {
+      return check.type === onlyType
+    })
+  }
+
+  async.parallel(checks, function (impossibleErr, results) {
 
     var returnResults = { results: {}, summary: { total: { fail: 0, pass: 0, count: 0 } } }
     results.forEach(function (result) {

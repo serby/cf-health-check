@@ -114,6 +114,33 @@ describe('health-check', function () {
 
   })
 
+  it('should only run checks of a given type', function (done) {
+
+    var healthCheck = new HealthCheck()
+
+    function throwError () {
+      throw new Error('This should not get called')
+    }
+
+    healthCheck.register('critical', { name: 'critical test', description: '', fn: makeCheck('OK') })
+    healthCheck.register('warning', { name: 'warning test', description: '', fn: throwError })
+
+    mockdate.set(Date.now())
+    healthCheck.run('critical', function (ignoreErr, results) {
+      assert.deepEqual(results
+        , { summary:
+            { critical: { fail: 0, pass: 1, count: 1 }
+            , total: { fail: 0, pass: 1, count: 1 } }
+          , results:
+            { critical: [ { name: 'critical test', description: '', status: 'OK', time: 0 } ]
+            }
+          })
+      mockdate.reset()
+      done()
+    })
+
+  })
+
   it('should correctly return time', function (done) {
 
     var healthCheck = new HealthCheck()
@@ -158,7 +185,8 @@ describe('health-check', function () {
       assert.deepEqual(results
         , { summary: { critical: { fail: 1, pass: 0, count: 1 }, total: { fail: 1, pass: 0, count: 1 } }
           , results:
-            { critical: [ { name: 'critical test', description: '', error: 'Check Timed Out', status: 'Error', time: 200 } ]
+            { critical: [ { name: 'critical test', description: ''
+              , error: 'Check Timed Out', status: 'Error', time: 200 } ]
             }
           })
       mockdate.reset()

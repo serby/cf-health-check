@@ -2,7 +2,7 @@
 
 Manage health checks which determine the overall health of a service's dependencies.
 
-[![dependency status](https://david-dm.org/clocklimited/cf-health-check.svg)](https://david-dm.org/clocklimited/cf-health-check)
+[![build status](https://api.travis-ci.org/clocklimited/cf-heath-check.svg)](http://travis-ci.org/clocklimited/cf-heath-check) [![Dependences](https://david-dm.org/clocklimited/cf-heath-check.svg)](https://david-dm.org/clocklimited/cf-heath-check/) [![Join the chat at https://gitter.im/clocklimited/cf-heath-check](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/clocklimited/cf-heath-check?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 ## Installation
 
